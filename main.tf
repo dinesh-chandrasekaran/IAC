@@ -123,7 +123,7 @@ resource "aws_instance" "server" {
    
    user_data = <<-EOF
                #!/bin/bash
-               echo '<html><body><h1 style="font-size:50px;color:blue;">DINESHC PROJECT <br> <font style="color:red;"> www.wezva.com <br> <font style="color:green;"> +91-9739110917 </h1> </body></html>' > index.html
+               echo '<html><body><h1 style="font-size:50px;color:blue;">DINESHC PROJECT <br> <font style="color:red;"> Welcome <br> <font style="color:green;"> Project Practice </h1> </body></html>' > index.html
                nohup busybox httpd -f -p 8080 &
               EOF
 
