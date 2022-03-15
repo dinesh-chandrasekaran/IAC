@@ -80,7 +80,7 @@ resource "aws_route_table_association" "my_vpc_ap_south_1a_public" {
 # CREATE THE SECURITY GROUP THAT'S APPLIED TO Web Server EC2 
 #-----------------------------------------------------------
 resource "aws_security_group" "instance" {
-  name = "adam-example-instance"
+  name = "demo-example-instance"
   vpc_id = aws_vpc.dineshc_vpc.id
 
   # Allow all outbound 
@@ -174,7 +174,7 @@ resource "aws_route_table_association" "my_vpc_ap_south_1b_private" {
 # CREATE THE SECURITY GROUP THAT'S APPLIED TO DB Server EC2
 #----------------------------------------------------------
 resource "aws_security_group" "db" {
-  name = "adam-example-db"
+  name = "demo-example-db"
   vpc_id = aws_vpc.dineshc_vpc.id
 
   # Allow all outbound 
