@@ -32,7 +32,7 @@ resource "aws_iam_policy" "dev" {
 # ---------------
 # CREATE DEV ROLE
 # ---------------
-resource "aws_iam_role" "wezvademo_dev_role" {
+resource "aws_iam_role" "demo_dev_role" {
   name               = "dev_role"
   assume_role_policy = data.aws_iam_policy_document.demo.json
 }

@@ -45,7 +45,7 @@ EOF
 }
 
 resource "aws_s3_bucket" "conf_bucket" {
-  bucket = "adam-demo-assumerole-bucket"
+  bucket = "demo-assumerole-bucket"
 }
 
 data "aws_iam_policy_document" "assume_role2_policy" {
