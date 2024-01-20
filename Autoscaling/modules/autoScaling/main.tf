@@ -46,7 +46,7 @@ resource "aws_cloudwatch_metric_alarm" "increase_load_avg" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "LoadAverage5min"
-  namespace           = "AWS/EC2"
+  namespace           = "LoadAverage5min"
   period              = 300
   statistic           = "Average"
   threshold           = 75
@@ -61,7 +61,7 @@ resource "aws_cloudwatch_metric_alarm" "decrease_load_avg" {
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = 1
   metric_name         = "LoadAverage5min"
-  namespace           = "AWS/EC2"
+  namespace           = "LoadAverage5min"
   period              = 300
   statistic           = "Average"
   threshold           = 50
