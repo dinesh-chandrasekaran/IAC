@@ -70,3 +70,14 @@ resource "aws_cloudwatch_metric_alarm" "decrease_load_avg" {
     AutoScalingGroupName = aws_autoscaling_group.jDoodle-asg.name
   }
 }
+
+
+resource "aws_autoscaling_schedule" "instance_refresh" {
+  scheduled_action_name  = "instance_refresh"
+  autoscaling_group_name = aws_autoscaling_group.jDoodle-asg.name
+  min_size               = 1
+  max_size               = 5
+  desired_capacity       = 1
+  recurrence             = "0 0 * * *"  # Schedule to run at 12am UTC daily
+  depends_on = [aws_autoscaling_group.jDoodle-asg]
+}
