@@ -13,16 +13,7 @@ instance_ids=($(aws autoscaling describe-auto-scaling-groups \
   --output text))
 
 for instance_id in "${instance_ids[@]}"; do
-  load_average=$(aws cloudwatch get-metric-statistics \
-    --region $aws_region \
-    --namespace $namespace \
-    --metric-name $metric_name \
-    --dimensions "Name=InstanceId,Value=$instance_id" \
-    --start-time $(date -u -d '5 minutes ago' '+%Y-%m-%dT%H:%M:%SZ') \
-    --end-time $(date -u '+%Y-%m-%dT%H:%M:%SZ') \
-    --period 300 \
-    --statistics Average \
-    --output json | jq -r '.Datapoints[0].Average')
+  load_average=$(ssh ubuntu@$instance_id uptime | awk -F'average:' '{print $2}' | awk -F, '{print $1}' | tr -d ' ')
 
   aws cloudwatch put-metric-data \
     --region $aws_region \
@@ -31,7 +22,7 @@ for instance_id in "${instance_ids[@]}"; do
     --value $load_average \
     --dimensions "InstanceId=$instance_id"
 
-  if [ $(echo "$load_average >= 75" | bc -l) -eq 1 ]; then
+  if [ $(echo "$load_average >= .75" | bc -l) -eq 1 ]; then
     aws autoscaling set-desired-capacity \
       --region $aws_region \
       --auto-scaling-group-name $asg_name \
@@ -43,7 +34,8 @@ for instance_id in "${instance_ids[@]}"; do
       --topic-arn $sns_topic_arn \
       --subject "Scaling Up" \
       --message "Load average exceeded 75% on instance $instance_id. Scaling up."
-  elif [ $(echo "$load_average <= 50" | bc -l) -eq 1 ]; then
+
+  elif [ $(echo "$load_average <= .50" | bc -l) -eq 1 ]; then
     aws autoscaling set-desired-capacity \
       --region $aws_region \
       --auto-scaling-group-name $asg_name \
